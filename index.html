@@ -35,7 +35,7 @@ int main() {
     cout &lt;&lt; "Hello, world!" &lt;&lt; endl;
     return 0;
 }
-    </pre>
+</pre>
 
 <p align="right">
     Студент групи 304ТН <b>Галенко Віталій</b>
@@ -55,6 +55,46 @@ int main() {
     <li><a href="task8.html">Завдання 8</a> – Встановлення кольору фону і тексту сторінки</li>
     <li><a href="image.html">Завдання 9</a> - Малюнки та фон</li>
 </ul>
+
+<hr>
+
+<h2 align="center">Дані з бази даних</h2>
+<table border="1" align="center" id="data-table" cellpadding="5" cellspacing="0">
+    <thead>
+    <tr bgcolor="#CCCCFF">
+        <th>Група</th>
+        <th>Прізвище</th>
+        <th>Ім'я</th>
+        <th>Предмет</th>
+        <th>Оцінка</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    fetch("https://001.16mb.com/api.php")
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector("#data-table tbody");
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${row.group_code}</td>
+                <td>${row.last_name}</td>
+                <td>${row.first_name}</td>
+                <td>${row.subject_name}</td>
+                <td>${row.grade}</td>
+            `;
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(err => {
+            const tbody = document.querySelector("#data-table tbody");
+            tbody.innerHTML = `<tr><td colspan="5" align="center" style="color:red;">Помилка завантаження даних</td></tr>`;
+            console.error(err);
+        });
+</script>
 
 </body>
 </html>

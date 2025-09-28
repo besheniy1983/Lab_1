@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Калькулятор орг. взноса — TelegaPay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: Arial, sans-serif; padding: 10px; }
+        h2 { font-size: 22px; margin-bottom: 10px; }
+        .field { margin-bottom: 14px; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; }
+        input[type="text"], input[type="email"] {
+            width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
+        }
+        .radio-group { display: grid; gap: 8px; }
+        .radio { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; }
+        .total { margin-top: 12px; padding: 10px; border: 1px dashed #aaa; border-radius: 6px; }
+        .strike { text-decoration: line-through; opacity: 0.6; margin-right: 6px; }
+        .error { color: red; font-size: 12px; }
+        .valid { color: green; font-size: 12px; }
+        button { background: #22c55e; color: white; font-weight: 600; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<form id="feeForm">
+    <h2>Калькулятор орг. взноса</h2>
+
+    <div class="field">
+        <label for="email">E-mail *</label>
+        <input id="email" name="email" type="email" required/>
+        <div id="emailError" class="error"></div>
+    </div>
+
+    <div class="field">
+        <label for="fio">ФИО / название коллектива *</label>
+        <input id="fio" name="fio" type="text" required/>
+        <div id="fioError" class="error"></div>
+    </div>
+
+    <div class="field">
+        <label>Категория *</label>
+        <div class="radio-group">
+            <label class="radio"><span><input type="radio" name="category" value="1500"/> Солист</span><span>1500 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="2900"/> Дуэт</span><span>2900 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="3500"/> Трио</span><span>3500 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="3900"/> Квартет</span><span>3900 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="4500"/> Ансамбль 5–14</span><span>4500 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="5900"/> Ансамбль 15–24</span><span>5900 ₽</span></label>
+            <label class="radio"><span><input type="radio" name="category" value="7900"/> Ансамбль свыше 25</span><span>7900 ₽</span></label>
+        </div>
+        <div id="categoryError" class="error"></div>
+    </div>
+
+    <div class="field">
+        <label>Другая сумма</label>
+        <input id="customAmount" type="text" placeholder="Введите сумму"/>
+        <div id="customAmountError" class="error"></div>
+    </div>
+
+    <div class="field">
+        <label>Промокод (необязательно)</label>
+        <input id="promo" type="text"/>
+        <div id="promoMsg" class="error"></div>
+    </div>
+
+    <div class="total">
+        <span>Итого: </span>
+        <span id="original" class="strike" hidden></span>
+        <span id="total">0 ₽</span>
+        <div id="discountLine" class="valid" hidden>Скидка −30% применена</div>
+    </div>
+
+    <div style="margin-top:12px;">
+        <button id="payButton" type="submit" disabled>Перейти к оплате</button>
+    </div>
+</form>
+
+<script>
+    (async function() {
+        const form = document.getElementById("feeForm");
+        const payBtn = document.getElementById("payButton");
+        const totalEl = document.getElementById("total");
+        const originalEl = document.getElementById("original");
+        const discountLine = document.getElementById("discountLine");
+        const promoInput = document.getElementById("promo");
+        const emailInput = document.getElementById("email");
+        const fioInput = document.getElementById("fio");
+        const customAmountInput = document.getElementById("customAmount");
+        const PROMO_RE = /^[A-Za-z]{2}\d{9}$/;
+        let finalAmount = 0;
+
+        function getSelectedPrice() {
+            const checked = form.querySelector("input[name='category']:checked");
+            let price = checked ? Number(checked.value) : 0;
+            const customVal = Number((customAmountInput.value || "").replace(/\D/g,''));
+            if (customVal > 0) price = customVal;
+            return price;
+        }
+
+        function recalc() {
+            const base = getSelectedPrice();
+            const code = promoInput.value.trim();
+            const hasPromo = PROMO_RE.test(code);
+            finalAmount = base;
+            if (hasPromo && base) finalAmount = Math.round(base * 0.7);
+
+            totalEl.textContent = finalAmount + " ₽";
+            if (hasPromo && base) {
+                originalEl.textContent = base + " ₽";
+                originalEl.hidden = false;
+                discountLine.hidden = false;
+            } else {
+                originalEl.hidden = true;
+                discountLine.hidden = true;
+            }
+
+            payBtn.disabled = !(finalAmount > 0 && emailInput.value && fioInput.value);
+        }
+
+        form.addEventListener("input", recalc);
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            recalc();
+            if (!(finalAmount > 0 && emailInput.value && fioInput.value)) return;
+
+            const orderId = "rostalant_" + Date.now();
+            const description = `Оплата орг. взноса — ${fioInput.value}`;
+
+            try {
+                const res = await fetch("/_functions/createPaylink", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount: finalAmount, currency: "RUB", orderId, description })
+                });
+                const invoice = await res.json();
+                if (invoice?.payment_url) {
+                    window.location.href = invoice.payment_url;
+                } else {
+                    alert("Ошибка при создании платежа");
+                    console.error(invoice);
+                }
+            } catch(err) {
+                console.error(err);
+                alert("Ошибка сервера: " + err.message);
+            }
+        });
+
+        recalc();
+    })();
+</script>
+
+</body>
+</html>
