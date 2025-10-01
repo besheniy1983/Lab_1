@@ -1,23 +1,101 @@
-<!DOCTYPE html>
-<html>
+<!-- HTML-документ із трьома рядками, які біжать з випадковою швидкістю (перегони) -->
+<!doctype html>
+<html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>Завдання 2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Перегони рядків</title>
+  <style>
+    body { margin:0; padding:0; background:#0b1220; font-family: Arial, sans-serif; color:white; }
+
+    /* Контейнер для перегонів */
+    .race-track {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: #1e293b;
+      overflow: hidden;
+      padding-top: 20px;
+    }
+
+    /* Кожна доріжка */
+    .lane {
+      position: relative;
+      height: 50px;
+      margin: 10px 0;
+      background: #334155;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Бігун (рядок + машинка) */
+    .runner {
+      position: absolute;
+      left: 100%; /* стартує за правим краєм */
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: race linear forwards; /* назва анімації, тривалість задаватимемо з JS */
+    }
+
+    /* Машинка */
+    .car {
+      width: 40px;
+      height: 24px;
+    }
+
+    @keyframes race {
+      0% { left: 100%; }
+      100% { left: -100%; }
+    }
+  </style>
 </head>
 <body>
-<p>Розклад</p>
-<br>занять<br>
-на вівторок
-<p><a href="index.html">Повернутися на головну</a></p>
+
+  <h2 style="text-align:center; padding:10px;">Перегони рядків 🚗</h2>
+
+  <div class="race-track">
+    <!-- Перша доріжка -->
+    <div class="lane">
+      <div class="runner" id="runner1">
+        <img class="car" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat_car_red.png" alt="машинка">
+        <span>Учасник №1</span>
+      </div>
+    </div>
+    <!-- Друга доріжка -->
+    <div class="lane">
+      <div class="runner" id="runner2">
+        <img class="car" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Car_icon_green.png" alt="машинка">
+        <span>Учасник №2</span>
+      </div>
+    </div>
+    <!-- Третя доріжка -->
+    <div class="lane">
+      <div class="runner" id="runner3">
+        <img class="car" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Car_icon_blue.png" alt="машинка">
+        <span>Учасник №3</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Функція для запуску перегонів з випадковими швидкостями
+    function startRace() {
+      for (let i = 1; i <= 3; i++) {
+        const runner = document.getElementById('runner' + i);
+        const duration = Math.floor(Math.random() * 6) + 5; // від 5 до 10 секунд
+        runner.style.animationDuration = duration + 's';
+        runner.style.animationName = 'race';
+      }
+    }
+
+    // Стартуємо при завантаженні сторінки
+    window.onload = startRace;
+  </script>
+
 </body>
 </html>
-<ul>
-    <li><a href="task1.html">Завдання 1</a> – Створення базового HTML-документу</li>
-    <li><a href="task2.html">Завдання 2</a> – Використання тегів &lt;P&gt; та &lt;BR&gt;</li>
-    <li><a href="task3.html">Завдання 3</a> – Виділення тексту жирним, курсивом, підкресленням</li>
-    <li><a href="task4.html">Завдання 4</a> – Використання заголовків &lt;H1&gt; – &lt;H6&gt;</li>
-    <li><a href="task5.html">Завдання 5</a> – Зміна розміру шрифту через &lt;FONT SIZE&gt;</li>
-    <li><a href="task6.html">Завдання 6</a> – Зміна шрифту, кольору та гарнітури</li>
-    <li><a href="task7.html">Завдання 7</a> – Вирівнювання тексту по горизонталі</li>
-    <li><a href="task8.html">Завдання 8</a> – Встановлення кольору фону і тексту сторінки</li>
-</ul>
