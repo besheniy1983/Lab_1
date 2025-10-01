@@ -87,7 +87,7 @@
     function startRace() {
       for (let i = 1; i <= 3; i++) {
         const runner = document.getElementById('runner' + i);
-        const duration = Math.floor(Math.random() * 6) + 5; // від 5 до 10 секунд
+        const duration = Math.floor(Math.random() * 21) + 20; // від 5 до 10 секунд
         runner.style.animationDuration = duration + 's';
         runner.style.animationName = 'race';
       }
