@@ -1,25 +1,25 @@
-<!-- HTML-документ із бігунком і новим текстом, що коливається з боку в бік -->
+<!-- HTML-документ із бігунком, текстом що коливається, і новим рядком що зупиняється -->
 <!doctype html>
-<html lang="uk"> <!-- Вказуємо мову документа -->
-<head> <!-- Початок секції head -->
-  <meta charset="utf-8"> <!-- Кодування документа -->
-  <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- Зробити сторінку адаптивною -->
-  <title>Текст що біжить і коливається</title> <!-- Заголовок вкладки браузера -->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Текст що біжить і зупиняється</title>
   <style>
     body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; background:#0b1220; color:white; }
 
     /* Контейнер для бігунка */
     .ticker-wrapper {
-      height: 50px; /* Висота контейнера */
-      width: 100%; /* На всю ширину */
-      overflow: hidden; /* Ховаємо те, що виходить за межі */
+      height: 50px;
+      width: 100%;
+      overflow: hidden;
       display: flex;
       align-items: center;
       box-sizing: border-box;
       padding-left: 10px;
+      background:#1e293b;
     }
 
-    /* Анімація для руху з права наліво */
     .ticker {
       display: inline-block;
       white-space: nowrap;
@@ -27,7 +27,6 @@
       animation: scroll-left 12s linear infinite;
     }
 
-    /* Текст для бігунка */
     .ticker__text {
       color: #fff;
       font-size: 18px;
@@ -39,22 +38,22 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Новий ефект – коливання з боку в бік */
+    /* Коливання з боку в бік */
     .swing-text {
       display: inline-block;
       font-size: 20px;
       font-weight: bold;
       color: #ffdd57;
-      animation: swing 3s ease-in-out infinite alternate; /* Анімація коливання */
+      animation: swing 3s ease-in-out infinite alternate;
     }
 
     @keyframes swing {
       0% { transform: translateX(0); }
-      50% { transform: translateX(30px); } /* Зміщення вправо */
-      100% { transform: translateX(-30px); } /* Зміщення вліво */
+      50% { transform: translateX(30px); }
+      100% { transform: translateX(-30px); }
     }
 
-    /* Два рядки що рухаються з різними затримками */
+    /* Два рядки з затримкою */
     .delayed-wrapper {
       height: 50px;
       width: 100%;
@@ -73,7 +72,7 @@
     }
 
     .line.second {
-      animation-delay: 5s; /* Запізнення другої лінії */
+      animation-delay: 5s;
       color: #a78bfa;
     }
 
@@ -81,27 +80,57 @@
       0% { left: 100%; }
       100% { left: -100%; }
     }
+
+    /* Рядок що біжить і зупиняється */
+    .stop-wrapper {
+      height: 50px;
+      width: 100%;
+      overflow: hidden;
+      background: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .stop-line {
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 600;
+      color: #f87171;
+      animation: run-stop 8s linear forwards; /* forwards зупиняє на останньому кадрі */
+    }
+
+    @keyframes run-stop {
+      0% { transform: translateX(100%); }
+      80% { transform: translateX(10%); } /* майже дійшов */
+      100% { transform: translateX(0); } /* зупинився */
+    }
   </style>
 </head>
 <body>
 
-  <!-- Бігунок, як і раніше -->
+  <!-- Бігунок з безкінечною прокруткою -->
   <div class="ticker-wrapper">
     <div class="ticker">
-      <span class="ticker__text">Це приклад першого бігунка з текстом що біжить.</span>
-      <span class="ticker__text">Це приклад першого бігунка з текстом що біжить.</span>
+      <span class="ticker__text">Це приклад бігунка з безкінечним рухом.</span>
+      <span class="ticker__text">Це приклад бігунка з безкінечним рухом.</span>
     </div>
   </div>
 
-  <!-- Текст, що коливається з боку в бік -->
+  <!-- Текст що коливається з боку в бік -->
   <div style="height:80px; display:flex; justify-content:center; align-items:center; background:#0f172a;">
     <span class="swing-text">Текст, що коливається з боку в бік</span>
   </div>
 
-  <!-- Два рядки з різними режимами запізнення -->
+  <!-- Два рядки з різним стартом -->
   <div class="delayed-wrapper">
     <div class="line first">Перший рядок рухається без затримки.</div>
     <div class="line second">Другий рядок рухається із запізненням.</div>
+  </div>
+
+  <!-- Новий рядок що біжить справа наліво і зупиняється -->
+  <div class="stop-wrapper">
+    <div class="stop-line">Рядок що біжить справа наліво та зупиняється.</div>
   </div>
 
 </body>
