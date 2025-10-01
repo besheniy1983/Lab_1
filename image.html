@@ -4,105 +4,125 @@
     <meta charset="UTF-8">
     <title>LabImages</title>
     <style>
+        /* ==============================
+           Загальні стилі сторінки
+        ============================== */
         body {
-            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
+            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb"); /* Фон сторінки */
+            background-size: cover;      /* Розтягнути фон на всю область */
+            background-attachment: fixed; /* Фон фіксований при скролі */
+            color: white;                /* Білий текст */
+            font-family: Arial, sans-serif; /* Шрифт */
+            text-align: center;          /* Центрування тексту */
         }
 
-        /* Коливання тексту та підписів */
+        /* ==============================
+           Коливання тексту та підписів
+        ============================== */
         h1, h2, p, li, figcaption {
-            display: inline-block;
-            animation: wobble 2s infinite ease-in-out;
+            display: inline-block;       /* Щоб можна було анімувати позицію */
+            animation: wobble 2s infinite ease-in-out; /* Безкінечне коливання вліво-вправо */
         }
 
+        /* Ключові кадри коливання тексту */
         @keyframes wobble {
-            0%,100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            0%, 100% { transform: translateX(0); } /* Початкова та кінцева позиція */
+            25% { transform: translateX(-10px); }  /* Зсув вліво */
+            75% { transform: translateX(10px); }   /* Зсув вправо */
         }
 
+        /* ==============================
+           Стилі малюнків у фігурах
+        ============================== */
         figure {
-            display: inline-block;
-            margin: 20px;
-            text-align: center;
+            display: inline-block;  /* Кожна фігура окремо */
+            margin: 20px;           /* Відступи між фігурами */
+            text-align: center;     /* Центрування підпису */
         }
 
         img {
-            width: 200px;
-            border: 3px solid white;
-            border-radius: 10px;
+            width: 200px;           /* Ширина картинки */
+            border: 3px solid white; /* Рамка навколо картинки */
+            border-radius: 10px;     /* Закруглені краї */
         }
 
         figcaption {
-            margin-top: 8px;
-            font-size: 16px;
-            font-style: italic;
-            color: yellow;
+            margin-top: 8px;        /* Відступ під картинкою */
+            font-size: 16px;        /* Розмір шрифту */
+            font-style: italic;     /* Курсив */
+            color: yellow;          /* Жовтий колір підпису */
         }
 
-        a { color: lightgreen; }
+        a { color: lightgreen; }   /* Колір посилань */
 
+        /* ==============================
+           Контейнер для анімації картинок
+        ============================== */
         .scroll-container {
-            position: relative;
-            height: 300px;
-            overflow: hidden;
-            border: 2px solid white;
-            margin: 20px auto;
-            width: 250px;
+            position: relative;     /* Для абсолютного позиціювання блоків всередині */
+            height: 300px;          /* Висота контейнера */
+            width: 250px;           /* Ширина контейнера */
+            margin: 20px auto;      /* Вирівнювання по центру */
+            border: 2px solid white; /* Рамка контейнера */
+            overflow: hidden;       /* Ховаємо все, що виходить за межі */
         }
 
-        /* Картинки знизу вгору (циклічно) */
+        /* ==============================
+           Анімація знизу вгору (циклічно)
+        ============================== */
         .scroll-up {
-            position: absolute;
-            bottom: -100%;
-            animation: moveUp 10s linear infinite;
+            position: absolute;      /* Абсолютне позиціювання всередині контейнера */
+            bottom: -100%;           /* Починаємо за межами знизу */
+            animation: moveUp 10s linear infinite; /* Рух догори по колу */
         }
 
+        /* Ключові кадри руху вгору */
         @keyframes moveUp {
-            0% { bottom: -100%; }
-            100% { bottom: 100%; }
+            0% { bottom: -100%; }    /* Початкова позиція за межами знизу */
+            100% { bottom: 100%; }   /* Кінцева позиція за межами зверху */
         }
 
-        /* Картинки згори вниз (зупинка на останньому фото) */
+        /* ==============================
+           Анімація згори вниз зупинка на останньому фото
+        ============================== */
         .scroll-down {
-            position: absolute;
-            top: -100%;
+            position: absolute;      /* Абсолютне позиціювання */
+            top: -100%;              /* Початкова позиція за межами зверху */
         }
 
         .scroll-down img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-bottom: 2px solid #fff;
+            display: block;          /* Кожне фото на новому рядку */
+            width: 100%;             /* Ширина блоку */
+            height: auto;            /* Зберігаємо пропорції */
+            border-bottom: 2px solid #fff; /* Рамка між фото */
         }
     </style>
 </head>
 <body>
+    <!-- Заголовок сторінки -->
     <h1>Вставка малюнків та фону</h1>
+
+    <!-- Посилання на головну -->
     <p><a href="index.html">Повернутися на головну</a></p>
 
+    <!-- Малюнки з описом -->
     <h2>Малюнки з описом</h2>
-
     <figure>
         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="Гори">
         <figcaption>Краєвид у горах</figcaption>
     </figure>
-
     <figure>
         <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6" alt="Квітка">
         <figcaption>Квітка у весняному саду</figcaption>
     </figure>
-
     <figure>
         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Море">
         <figcaption>Захід сонця над морем</figcaption>
     </figure>
 
-    <!-- Знизу вверх -->
+    <!-- ==============================
+         Картинки знизу вгору
+    ============================== -->
     <h2>Картинки рухаються знизу вгору (циклічно)</h2>
     <div class="scroll-container">
         <div class="scroll-up">
@@ -112,7 +132,9 @@
         </div>
     </div>
 
-    <!-- Згори вниз зупинка на останньому фото -->
+    <!-- ==============================
+         Картинки згори вниз (зупинка на останньому фото)
+    ============================== -->
     <h2>Картинки рухаються згори вниз (зупинка на останньому фото)</h2>
     <div class="scroll-container">
         <div class="scroll-down" id="scrollDownBlock">
@@ -122,6 +144,9 @@
         </div>
     </div>
 
+    <!-- ==============================
+         Меню завдань
+    ============================== -->
     <h2>Меню завдань</h2>
     <ul>
         <li><a href="task1.html">Завдання 1</a></li>
@@ -135,32 +160,34 @@
         <li><a href="image.html">Завдання 9</a></li>
     </ul>
 
+    <!-- ==============================
+         JavaScript для руху згори вниз з зупинкою
+    ============================== -->
     <script>
-        // JS для руху згори вниз зупинкою на останньому фото
         window.addEventListener('load', function() {
             const block = document.getElementById('scrollDownBlock'); // блок із картинками
             const container = block.parentElement;                    // контейнер
             const images = block.querySelectorAll('img');            // всі картинки
             let totalHeight = 0;
 
-            // обчислюємо загальну висоту блоку
+            // Обчислюємо сумарну висоту всіх картинок
             images.forEach(img => totalHeight += img.offsetHeight);
 
-            const containerHeight = container.offsetHeight;
+            const containerHeight = container.offsetHeight;          // висота контейнера
 
-            // кінцева позиція блоку: остання картинка внизу
+            // Кінцева позиція: останнє фото у нижній межі контейнера
             const endTop = containerHeight - totalHeight;
 
-            // анімація блоку
+            // Запускаємо анімацію через Web Animations API
             block.animate(
                 [
-                    { top: '-100%' },           // старт зверху
-                    { top: endTop + 'px' }      // кінець — останнє фото внизу
+                    { top: '-100%' },       // старт над контейнером
+                    { top: endTop + 'px' }  // зупинка на останньому фото
                 ],
                 {
-                    duration: 4000,             // тривалість 4 сек
-                    fill: 'forwards',           // зупинка у кінцевому положенні
-                    easing: 'linear'
+                    duration: 4000,         // тривалість 4 секунди
+                    fill: 'forwards',       // після анімації залишитися у кінцевому стані
+                    easing: 'linear'        // лінійний рух
                 }
             );
         });
