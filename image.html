@@ -4,96 +4,87 @@
     <meta charset="UTF-8">
     <title>LabImages</title>
     <style>
-        /* Загальні стилі для сторінки */
         body {
-            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb"); /* Фон */
-            background-size: cover;       /* Розтягнути фон на всю сторінку */
-            background-attachment: fixed; /* Фіксований фон при скролі */
-            color: white;                 /* Білий текст */
-            font-family: Arial, sans-serif; /* Шрифт */
-            text-align: center;           /* Центрування тексту */
+            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
 
-        /* Коливання тексту */
+        /* Коливання тексту та підписів */
         h1, h2, p, li, figcaption {
-            display: inline-block;        /* Щоб можна було анімувати */
-            animation: wobble 2s infinite ease-in-out; /* Безкінечне коливання */
+            display: inline-block;
+            animation: wobble 2s infinite ease-in-out;
         }
 
-        /* Ключові кадри коливання (гойдання з боку в бік) */
         @keyframes wobble {
-            0%, 100% { transform: translateX(0); }
+            0%,100% { transform: translateX(0); }
             25% { transform: translateX(-10px); }
             75% { transform: translateX(10px); }
         }
 
-        /* Малюнки в фігурі */
         figure {
-            display: inline-block;   /* Кожен окремо */
-            margin: 20px;            /* Відступи */
-            text-align: center;      /* Текст під малюнком по центру */
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
         }
 
         img {
-            width: 200px;            /* Ширина картинки */
-            border: 3px solid white; /* Рамка */
-            border-radius: 10px;     /* Закруглені краї */
+            width: 200px;
+            border: 3px solid white;
+            border-radius: 10px;
         }
 
         figcaption {
-            margin-top: 8px;         /* Відступ від картинки */
-            font-size: 16px;         /* Розмір тексту */
-            font-style: italic;      /* Курсив */
-            color: yellow;           /* Жовтий текст */
+            margin-top: 8px;
+            font-size: 16px;
+            font-style: italic;
+            color: yellow;
         }
 
-        a { color: lightgreen; }     /* Зелений колір посилань */
+        a { color: lightgreen; }
 
-        /* Контейнер для руху картинок */
         .scroll-container {
             position: relative;
-            height: 300px;          /* Висота області */
-            overflow: hidden;       /* Ховає те, що виходить за межі */
+            height: 300px;
+            overflow: hidden;
             border: 2px solid white;
             margin: 20px auto;
             width: 250px;
         }
 
-        /* Блок картинок, які рухаються знизу вгору (циклічно) */
+        /* Картинки знизу вгору (циклічно) */
         .scroll-up {
             position: absolute;
-            bottom: -100%; /* Початок за межами знизу */
-            animation: moveUp 10s linear infinite; /* Рух догори по колу */
+            bottom: -100%;
+            animation: moveUp 10s linear infinite;
         }
 
-        /* Блок картинок, які рухаються згори вниз (і зупиняються) */
-        .scroll-down {
-            position: absolute;
-            top: -100%; /* Початок за межами згори */
-            animation: moveDown 8s linear forwards; /* Рух вниз і зупинка */
-        }
-
-        /* Анімація вгору (циклічно) */
         @keyframes moveUp {
             0% { bottom: -100%; }
             100% { bottom: 100%; }
         }
 
-        /* Анімація вниз (зупинка внизу) */
-        @keyframes moveDown {
-            0% { top: -100%; }
-            100% { top: 100%; }
+        /* Картинки згори вниз (зупинка на останньому фото) */
+        .scroll-down {
+            position: absolute;
+            top: -100%;
+        }
+
+        .scroll-down img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #fff;
         }
     </style>
 </head>
 <body>
-    <!-- Заголовок сторінки -->
     <h1>Вставка малюнків та фону</h1>
-
-    <!-- Посилання на головну -->
     <p><a href="index.html">Повернутися на головну</a></p>
 
-    <!-- Перший блок: малюнки з описом -->
     <h2>Малюнки з описом</h2>
 
     <figure>
@@ -111,7 +102,7 @@
         <figcaption>Захід сонця над морем</figcaption>
     </figure>
 
-    <!-- Блок де картинки рухаються знизу вверх -->
+    <!-- Знизу вверх -->
     <h2>Картинки рухаються знизу вгору (циклічно)</h2>
     <div class="scroll-container">
         <div class="scroll-up">
@@ -121,17 +112,16 @@
         </div>
     </div>
 
-    <!-- Блок де картинки рухаються згори вниз -->
-    <h2>Картинки рухаються згори вниз (зупинка)</h2>
+    <!-- Згори вниз зупинка на останньому фото -->
+    <h2>Картинки рухаються згори вниз (зупинка на останньому фото)</h2>
     <div class="scroll-container">
-        <div class="scroll-down">
+        <div class="scroll-down" id="scrollDownBlock">
             <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="Гори">
             <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6" alt="Квітка">
             <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Море">
         </div>
     </div>
 
-    <!-- Меню завдань -->
     <h2>Меню завдань</h2>
     <ul>
         <li><a href="task1.html">Завдання 1</a></li>
@@ -144,5 +134,36 @@
         <li><a href="task8.html">Завдання 8</a></li>
         <li><a href="image.html">Завдання 9</a></li>
     </ul>
+
+    <script>
+        // JS для руху згори вниз зупинкою на останньому фото
+        window.addEventListener('load', function() {
+            const block = document.getElementById('scrollDownBlock'); // блок із картинками
+            const container = block.parentElement;                    // контейнер
+            const images = block.querySelectorAll('img');            // всі картинки
+            let totalHeight = 0;
+
+            // обчислюємо загальну висоту блоку
+            images.forEach(img => totalHeight += img.offsetHeight);
+
+            const containerHeight = container.offsetHeight;
+
+            // кінцева позиція блоку: остання картинка внизу
+            const endTop = containerHeight - totalHeight;
+
+            // анімація блоку
+            block.animate(
+                [
+                    { top: '-100%' },           // старт зверху
+                    { top: endTop + 'px' }      // кінець — останнє фото внизу
+                ],
+                {
+                    duration: 4000,             // тривалість 4 сек
+                    fill: 'forwards',           // зупинка у кінцевому положенні
+                    easing: 'linear'
+                }
+            );
+        });
+    </script>
 </body>
 </html>
