@@ -1,80 +1,108 @@
-<!-- Простий HTML-документ з "текстом що біжить" і коментарями до кожного рядка -->
+<!-- HTML-документ із бігунком і новим текстом, що коливається з боку в бік -->
 <!doctype html>
 <html lang="uk"> <!-- Вказуємо мову документа -->
 <head> <!-- Початок секції head -->
   <meta charset="utf-8"> <!-- Кодування документа -->
   <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- Зробити сторінку адаптивною -->
-  <title>Текст що біжить — приклад</title> <!-- Заголовок вкладки браузера -->
-  <!-- Стилі сторінки починаються тут -->
+  <title>Текст що біжить і коливається</title> <!-- Заголовок вкладки браузера -->
   <style>
-    /* Скидання відступів для body */
-    body { margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
-    /* Контейнер для бігунка: задає фон, розміри і обрізку */
+    body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; background:#0b1220; color:white; }
+
+    /* Контейнер для бігунка */
     .ticker-wrapper {
-      height: 50px; /* Висота контейнера 50px, як ви просили */
-      width: 100%; /* Ширина контейнера — 100% ширини вікна; змініть за потреби */
-      overflow: hidden; /* Обрізаємо все, що виходить за межі висоти/ширини */
-      background: linear-gradient(90deg, #0f172a, #0b1220); /* Фон: градієнт (можна змінити) */
-      display: flex; /* Використовуємо flex для вирівнювання по вертикалі */
-      align-items: center; /* Центруємо вміст по вертикалі */
-      box-sizing: border-box; /* Враховуємо padding/борт у розмірах */
-      padding-left: 10px; /* Лівий відступ для тексту */
+      height: 50px; /* Висота контейнера */
+      width: 100%; /* На всю ширину */
+      overflow: hidden; /* Ховаємо те, що виходить за межі */
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      padding-left: 10px;
     }
 
-    /* Сам рядок, який рухається — використовуємо анімацію translateX */
+    /* Анімація для руху з права наліво */
     .ticker {
-      display: inline-block; /* Показуємо як рядковий блок */
-      white-space: nowrap; /* Не переносити текст на новий рядок */
-      will-change: transform; /* Підказка браузеру для оптимізації анімації */
-      animation: scroll-left 12s linear infinite; /* Анімація: ім'я, тривалість, тип, повтор */
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scroll-left 12s linear infinite;
     }
 
-    /* Стиль для самого тексту: колір, шрифт та розмір */
+    /* Текст для бігунка */
     .ticker__text {
-      color: #fff; /* Колір тексту - білий (змінюється тут) */
-      font-family: 'Arial', 'Helvetica', sans-serif; /* Тип шрифту */
-      font-size: 18px; /* Розмір шрифту - 18px (змінюється тут) */
-      font-weight: 600; /* Трохи жирності для кращої читабельності */
-      letter-spacing: 0.2px; /* Міжбуквений інтервал */
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
     }
 
-    /* Ключові кадри для руху: з правого краю в лівий */
     @keyframes scroll-left {
-      0% { transform: translateX(100%); } /* Починаємо праворуч за межами контейнера */
-      100% { transform: translateX(-100%); } /* Закінчуємо ліворуч за межами контейнера */
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
 
-    /* Додатковий клас для сповільнення або пришвидшення — приклад */
-    .slow { animation-duration: 24s; } /* Дублювання: подвоює тривалість */
-    .fast { animation-duration: 8s; } /* Прискорює рух */
+    /* Новий ефект – коливання з боку в бік */
+    .swing-text {
+      display: inline-block;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffdd57;
+      animation: swing 3s ease-in-out infinite alternate; /* Анімація коливання */
+    }
 
-    /* Адаптив: зменшуємо розмір шрифту на маленьких екранах */
-    @media (max-width: 480px) {
-      .ticker__text { font-size: 14px; } /* Менший шрифт для мобільних */
+    @keyframes swing {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(30px); } /* Зміщення вправо */
+      100% { transform: translateX(-30px); } /* Зміщення вліво */
+    }
+
+    /* Два рядки що рухаються з різними затримками */
+    .delayed-wrapper {
+      height: 50px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      background: #1e293b;
+    }
+
+    .line {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 500;
+      color: #38bdf8;
+      animation: move-line 10s linear infinite;
+    }
+
+    .line.second {
+      animation-delay: 5s; /* Запізнення другої лінії */
+      color: #a78bfa;
+    }
+
+    @keyframes move-line {
+      0% { left: 100%; }
+      100% { left: -100%; }
     }
   </style>
 </head>
-<body> <!-- Початок тіла документа -->
+<body>
 
-  <!-- Контейнер який обрізає і тримає в собі бігунок -->
-  <div class="ticker-wrapper" aria-label="Бігучий текст"> <!-- aria-label для доступності -->
+  <!-- Бігунок, як і раніше -->
+  <div class="ticker-wrapper">
+    <div class="ticker">
+      <span class="ticker__text">Це приклад першого бігунка з текстом що біжить.</span>
+      <span class="ticker__text">Це приклад першого бігунка з текстом що біжить.</span>
+    </div>
+  </div>
 
-    <!-- Бігунок (елемент, який рухається). Клас ticker містить анімацію -->
-    <div class="ticker" id="ticker"> <!-- id використовується для можливих маніпуляцій скриптом -->
+  <!-- Текст, що коливається з боку в бік -->
+  <div style="height:80px; display:flex; justify-content:center; align-items:center; background:#0f172a;">
+    <span class="swing-text">Текст, що коливається з боку в бік</span>
+  </div>
 
-      <!-- Сам текст у внутрішньому елементі; можна дублювати текст для безшовного ефекту -->
-      <span class="ticker__text" id="tickerText"> <!-- Вставляйте сюди свій текст -->
-        Тут ваш бігунок — приклад тексту що біжить. Змініть колір, шрифт або розмір у CSS.
-      </span>
+  <!-- Два рядки з різними режимами запізнення -->
+  <div class="delayed-wrapper">
+    <div class="line first">Перший рядок рухається без затримки.</div>
+    <div class="line second">Другий рядок рухається із запізненням.</div>
+  </div>
 
-      <!-- Дубль тексту для безшовного прокручування (потрібен якщо текст короткий) -->
-      <span class="ticker__text" id="tickerTextClone"> <!-- Клон для плавності */ -->
-        Тут ваш бігунок — приклад тексту що біжить. Змініть колір, шрифт або розмір у CSS.
-      </span>
-
-    </div> <!-- Кінець елементу ticker -->
-
-  </div> <!-- Кінець контейнера ticker-wrapper -->
-
-  <!-- Невеликий скрипт, щоб підлаштувати клон під ширину оригіналу і зробити анімацію більш плавною -->
-  <scrip
+</body>
+</html>
